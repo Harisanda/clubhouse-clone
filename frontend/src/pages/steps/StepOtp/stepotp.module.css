@@ -1,0 +1,18 @@
+.cardwrapper {
+    /* composes: cardwrapper from'../../../App.module.css'; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.paragraph{
+    color: #c4c5c5;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.actionButton{
+    margin-top: 40px;
+}

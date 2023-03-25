@@ -1,0 +1,16 @@
+POST http://localhost:5500/api/send-otp HTTP/1.1
+Content-Type: application/json
+
+{
+    "phone":"+2610346416564"
+}
+
+###
+POST http://localhost:5500/api/verify-otp HTTP/1.1
+Content-Type: application/json
+
+{
+    "phone":"+2610346416564",
+    "otp": "8414",
+    "hash": "87bba000f5a250e082b94fd15e0823bee35892c70e9ae9ca081f9cd39215f638.1679641141547.1679590081587.1679589502545.1679588752912"
+}
