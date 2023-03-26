@@ -6,27 +6,36 @@ import Authenticate from './pages/authenticate/Authenticate';
 import Activate from './pages/activate/Activate';
 import Rooms from './pages/rooms/Rooms';
 import {useSelector} from 'react-redux';
-
+import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
+import Loader from './components/shared/loader/Loader';
 
 function App() {
+
+  //refresh endpppoint
+  const {loading} = useLoadingWithRefresh();
+
   return (
-    <BrowserRouter>
-      <Navigation/>
-      <Switch>
-        <GuestRoute  path='/' exact>
-          <Home/>
-        </GuestRoute>
-        <GuestRoute path='/authenticate'>
-          <Authenticate/>
-        </GuestRoute>
-        <SemiProtectedRoute path='/activate'>
-          <Activate/>
-        </SemiProtectedRoute>
-        <ProtectedRoute path='/rooms'>
-          <Rooms/>
-        </ProtectedRoute>
-      </Switch>
-    </BrowserRouter>
+    loading ? (
+      <Loader message="Loading, please wait"/>
+      ) : (
+      <BrowserRouter>
+        <Navigation/>
+        <Switch>
+          <GuestRoute  path='/' exact>
+            <Home/>
+          </GuestRoute>
+          <GuestRoute path='/authenticate'>
+            <Authenticate/>
+          </GuestRoute>
+          <SemiProtectedRoute path='/activate'>
+            <Activate/>
+          </SemiProtectedRoute>
+          <ProtectedRoute path='/rooms'>
+            <Rooms/>
+          </ProtectedRoute>
+        </Switch>
+      </BrowserRouter>
+    )
   );
 }
 

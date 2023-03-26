@@ -1,4 +1,4 @@
-import React , {useState} from 'react'
+import React , {useEffect, useState} from 'react'
 import styles from './stepAvatar.module.css';
 import Card from '../../../components/shared/card/Card'
 import Button from '../../../components/shared/button/Button'
@@ -6,26 +6,32 @@ import {useSelector,useDispatch} from 'react-redux'
 import {setAvatar} from '../../../store/activateSlice'
 import {activate} from '../../../http'
 import { setAuth } from '../../../store/authSlice';
+import Loader from '../../../components/shared/loader/Loader';
 
 const StepAvatar = ({onNext}) => {
   const dispatch = useDispatch();
   const {name,avatar} = useSelector((state) => state.activate);
   const [image,setImage] = useState('images/monkey-avatar.png');
+  const [loading,setLoading] = useState(false);
+  const [unMounted,setUnMounted] = useState(false);
 
   async function submit () {
-
+    if (!name || !avatar) return;
     try{
-
+      setLoading(true);
       console.log(avatar);
       const {data} = await activate({name,avatar});
 
       if (data.auth){
-        dispatch(setAuth(data));
+        if(unMounted) {
+          dispatch(setAuth(data));
+        }
       }
-      console.log(data);
 
     } catch (err){
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -40,6 +46,14 @@ const StepAvatar = ({onNext}) => {
     }
     // console.log(e);
   }
+
+  useEffect(() => {
+    return () => {
+      setUnMounted(true);
+    }
+  },[])
+
+  if (loading) return <Loader message="Activation en cours ..." />
   return (
     <>
       <div className={styles.cardwrapper}>

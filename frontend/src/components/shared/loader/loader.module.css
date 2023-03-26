@@ -1,0 +1,23 @@
+.cardwrapper {
+    /* composes: cardwrapper from'../../../App.module.css'; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.message{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.spinner {
+    margin-bottom: 10px;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -11,7 +11,7 @@ class activateControllers {
             res.status(400).json({message: 'Tous les champs doit être complèter'});
         }
         //Image base 64
-        const buffer = Buffer.from(avatar.replace(/^data:image\/png;base64,/,''),'base64');
+        const buffer = Buffer.from(avatar.replace(/^data:image\/(png|jpg|jpeg);base64,/,''),'base64');
 
         const imagePath = `${Date.now()}-${Math.round(Math.random() * 1e9)}.png`;
         try {
