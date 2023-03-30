@@ -1,97 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import RoomCard from '../../components/roomCard/RoomCard';
+import AddRoom from '../../components/roomModal/AddRoom';
 import styles from './room.module.css';
-
-const rooms = [
-  {
-    id:1,
-    topic: 'developpement web',
-    speakers: [
-      {
-        id: 1,
-        name: 'koto',
-        avatar: '/images/monkey-avatar.png',
-      },
-      {
-        id: 2,
-        name: 'koto2',
-        avatar: '/images/monkey-avatar.png',
-      },   
-    ],
-    totalPeople: 40,
-  },
-  {
-    id:2,
-    topic: 'php',
-    speakers: [
-      {
-        id: 1,
-        name: 'koto',
-        avatar: '/images/monkey-avatar.png',
-      },
-      {
-        id: 2,
-        name: 'koto2',
-        avatar: '/images/monkey-avatar.png',
-      },   
-    ],
-    totalPeople: 40,
-  },
-  {
-    id:3,
-    topic: 'react',
-    speakers: [
-      {
-        id: 1,
-        name: 'koto',
-        avatar: '/images/monkey-avatar.png',
-      },
-      {
-        id: 2,
-        name: 'koto2',
-        avatar: '/images/monkey-avatar.png',
-      },   
-    ],
-    totalPeople: 40,
-  },
-  {
-    id:4,
-    topic: 'marketing digital',
-    speakers: [
-      {
-        id: 1,
-        name:'koto',
-        avatar: '/images/monkey-avatar.png',
-      },
-      {
-        id: 2,
-        name: 'koto2',
-        avatar: '/images/monkey-avatar.png',
-      },   
-    ],
-    totalPeople: 40,
-  },
-  {
-    id:1,
-    topic: 'java',
-    speakers: [
-      {
-        id: 1,
-        name: 'koto',
-        avatar: '/images/monkey-avatar.png',
-      },
-      {
-        id: 2,
-        name: 'koto2',
-        avatar: '/images/monkey-avatar.png',
-      },   
-    ],
-    totalPeople: 40,
-  },
-]
+import { getAllRooms } from '../../http';
 
 
 const Rooms = () => {
+
+  const [showModal,setShowModal] = useState(false);
+  const [rooms,setRooms] = useState([]);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const {data} = await getAllRooms();
+      setRooms(data);
+    };
+    fetchRooms();
+  },[])
+
+  function openModal () {
+    setShowModal(true);
+  }
+
   return (
     <>
       <div className='container'>
@@ -104,7 +34,7 @@ const Rooms = () => {
             </div>
           </div>
           <div className={styles.right}>
-            <button className={styles.startRoom}>
+            <button className={styles.startRoom} onClick={openModal}>
               <img src='/images/add-room-icon.png' alt='start' />
               <span>Start</span>
             </button>
@@ -114,8 +44,9 @@ const Rooms = () => {
           {rooms.map((room) =>(
             <RoomCard key={room.id} room={room}/>
           ))}
-        </div>
+        </div> 
       </div>
+      {showModal && <AddRoom onClose={() => setShowModal(false) }/>}
     </>
   )
 }

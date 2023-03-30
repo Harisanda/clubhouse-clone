@@ -63,7 +63,7 @@ class AuthController {
             console.log(error);
             res.status(500).json({message: 'db erreur'});
         }
-        console.log(user);
+        // console.log(user);
         //Token
         const {accessToken,refreshToken} = tokenServices.generateToken({
             _id: user._id,
@@ -91,7 +91,6 @@ class AuthController {
     async refresh (req,res) {
         //recuperer le token dans le cookie
         const {refreshtoken: refreshtokenFromCookie} = req.cookies;
-        console.log(refreshtokenFromCookie);
 
         //verifier si le refreshtoken est valide
         let userData;
@@ -100,12 +99,11 @@ class AuthController {
         } catch (error) {
             res.status(401).json({message: 'Invalide Token'});
         }
-        console.log(userData);
 
         //verifier si le refresh token existe dans la bd
         try {
             const token = await tokenServices.findRefreshToken(userData._id,refreshtokenFromCookie);
-            console.log(token);
+            // console.log(token);
             if(!token) {
                 return res.status(401).json({message: 'Invalide Token'});
             }
