@@ -1,0 +1,42 @@
+.notifMask{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notifBody {
+    width: 50%;
+    max-width: 500px;
+    background: #1d1d1d; 
+    border-radius: 20px;
+    position: relative;
+}
+
+.notifHeader {
+    padding: 30px;
+    border-bottom: 2px solid #262626;
+}
+
+.heading {
+    margin-bottom: 5px;
+}
+
+.buttonClose {
+    position: absolute;
+    right: 3px;
+    top: 8px;
+    background: none;
+}
+
+.requestList {
+    /* display: grid;
+    grid-template-columns: repeat(4, 1fr); */
+    /* gap: 20px; */
+    margin-top: 60px;
+}

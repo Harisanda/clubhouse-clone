@@ -12,6 +12,12 @@ const modelSchema = new schema({
             {type: schema.Types.ObjectId,ref:'User'},
         ],
         required: false,
+    },
+    listener: {
+        type: [
+            {type: schema.Types.ObjectId,ref:'User'},
+        ],
+        required: false,
     }
 }, {
     timestamps: true

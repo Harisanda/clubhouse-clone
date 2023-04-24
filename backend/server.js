@@ -43,8 +43,6 @@ io.on('connection', (socket) => {
     console.log('new connection', socket.id);
 
     socket.on(ACTIONS.JOIN, ({roomId,user}) => {
-        console.log(roomId);
-        console.log(user);
 
         socketUserMapping[socket.id] = user;
         // new Map
@@ -71,7 +69,6 @@ io.on('connection', (socket) => {
 
     //Handle relay ice
     socket.on(ACTIONS.RELAY_ICE, ({peerId,icecandidate}) => {
-        console.log('relay ice');
         io.to(peerId).emit(ACTIONS.ICE_CANDIDATE,{
             peerId: socket.id,
             icecandidate,
@@ -80,10 +77,32 @@ io.on('connection', (socket) => {
 
     //Handle relay SDP (session description)
     socket.on(ACTIONS.RELAY_SDP, ({peerId,sessionDescription}) => {
-        console.log('relay sdp');
         io.to(peerId).emit(ACTIONS.SESSION_DESCRIPTION,{
             peerId: socket.id,
             sessionDescription
+        });
+    });
+
+    //handle mute and unmute
+    socket.on(ACTIONS.MUTE,({roomId,userId}) => {
+        const clients = Array.from(io.sockets.adapter.rooms.get(roomId) || []);
+
+        clients.forEach(clientId => {
+            io.to(clientId).emit(ACTIONS.MUTE,{
+                peerId: socket.id,
+                userId,
+            });
+        });
+    });
+
+    socket.on(ACTIONS.UN_MUTE,({roomId, userId}) => {
+        const clients = Array.from(io.sockets.adapter.rooms.get(roomId) || []);
+
+        clients.forEach(clientId => {
+            io.to(clientId).emit(ACTIONS.UN_MUTE,{
+                peerId: socket.id,
+                userId,
+            });
         });
     });
 
@@ -114,6 +133,7 @@ io.on('connection', (socket) => {
     };
 
     socket.on(ACTIONS.LEAVE, leaveRoom);
+    socket.on('disconnecting', leaveRoom);
 })
 
 
